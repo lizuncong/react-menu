@@ -25,11 +25,11 @@ module.exports = {
         test: /\.tsx?$/,
         loader: 'ts-loader'
       },
-      // {
-      //   enforce: "pre", // pre normal inline post
-      //   test: /\.tsx?$/,
-      //   loader: 'source-map-loader', // 从源代码中提出source map，目的是方便调试
-      // },
+      {
+        enforce: "pre", // pre normal inline post
+        test: /\.tsx?$/,
+        loader: 'source-map-loader', // 从源代码中提出source map，目的是方便调试
+      },
       {
         test: /\.less?$/,
         use: ['style-loader', 'css-loader', 'less-loader']
