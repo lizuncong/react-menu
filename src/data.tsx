@@ -34,7 +34,6 @@ const data: TreeData = {
       key: '1-2',
       type: 'folder',
       collapsed: true,
-      children: [],
     }
   ]
 }

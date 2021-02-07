@@ -3,10 +3,12 @@ import { TreeData } from '../typings';
 import file from '../../assets/file.png';
 import closedFolder from '../../assets/folder-close.png';
 import openedFolder from '../../assets/file-open.png';
+import loadingSrc from '../../assets/loading.png';
 
 interface Props {
     data: TreeData;
     onCollapse: any;
+    onCheck: any;
 }
 
 class TreeNode extends React.Component<Props>{
@@ -15,24 +17,30 @@ class TreeNode extends React.Component<Props>{
     }
 
     render(){
-        const { data: { name, children, key, collapsed }, onCollapse} = this.props;
+        const { data: { name, loading, children, key, collapsed, checked }, onCollapse, onCheck, } = this.props;
         let caret;
         let icon;
         if(children){
             if(children.length > 0){
                 caret = (
                     <span
-                        className={`collapse caret-right`}
-                        onClick={onCollapse(key)}
+                        className={`collapse ${collapsed ? 'caret-right' : 'caret-down'}`}
+                        onClick={() => onCollapse(key)}
                     >
                     </span>
                 )
+                icon = collapsed ? closedFolder : openedFolder
+            } else {
+                caret = null;
+                icon = file;
             }
         } else {
-            caret = (
+            caret = loading ?
+                <img className="collapse" style={{ width: 14, top: '50%', marginTop: -7}} src={loadingSrc} alt=""/> :
+                (
                 <span
                     className={`collapse caret-right`}
-                    onClick={onCollapse(key)}
+                    onClick={() => onCollapse(key)}
                 >
                 </span>
             )
@@ -41,15 +49,27 @@ class TreeNode extends React.Component<Props>{
         return (
             <div className="tree-node">
                 <div className="inner">
-                    {}
-                    <span className="content">{name}</span>
+                    {caret}
+                    <span className="content">
+                        <input
+                            type="checkbox"
+                            checked={!!checked}
+                            onChange={() => {
+                                onCheck(key)
+                            }}
+                        />
+                        <img style={{ width: '20px'}} src={icon} alt=""/>
+                        {name}
+                    </span>
                 </div>
                 {
-                    children && children.length > 0 && (
+                    children && children.length > 0 && !collapsed && (
                         <div className="children">
                             {
                                 children.map((item: TreeData, index:number) => (
                                     <TreeNode
+                                        onCollapse={onCollapse}
+                                        onCheck={onCheck}
                                         data={item}
                                         key={item.key}
                                     />

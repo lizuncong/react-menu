@@ -17,6 +17,17 @@
         position: relative;
         cursor: pointer;
         padding-left: 10px;
+        .collapse{
+          position: absolute;
+          left: 0;
+          cursor: pointer;
+        }
+        .caret-right:before{
+          content: '\25B8';
+        }
+        .caret-down:before{
+          content: '\25BE';
+        }
         .content{
           display: inline-block;
           width: 100%;
